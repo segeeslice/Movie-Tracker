@@ -1,18 +1,11 @@
 import Vue from 'vue'
 import App from './App'
 import store from './store'
-// import {
-//   MdApp,
-//   MdList,
-//   MdButton
-// } from 'vue-material/dist/components'
-// TODO: change this to import individual components for runtime purposes...
-// webpack throws an error?
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/default.css'
+import MuseUI from 'muse-ui'
+import 'muse-ui/dist/muse-ui.css'
+import 'muse-ui/dist/theme-carbon.css' // use carbon theme
 
-Vue.use(VueMaterial)
+Vue.use(MuseUI)
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.config.productionTip = false
