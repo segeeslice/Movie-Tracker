@@ -13,19 +13,18 @@
 
     <mu-content-block>
       <movie-tracker v-if="activeTab === 'movie-tracker'"/>
-      <div v-if="activeTab === 'about'">
-        Swoog
-      </div>
+      <about v-if="activeTab === 'about'"/>
     </mu-content-block>
   </div>
 </template>
 
 <script>
   import MovieTracker from './components/MovieTracker'
+  import About from './components/About'
 
   export default {
     name: 'app',
-    components: { MovieTracker },
+    components: { MovieTracker, About },
     data () {
       return {
         nav: [

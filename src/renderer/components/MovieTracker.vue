@@ -23,8 +23,6 @@
 </template>
 
 <script>
-  import path from 'path'
-
   export default {
     name: 'movie-tracker',
     data () {
@@ -33,8 +31,6 @@
     },
     computed: {
       movies () {
-        var jon = path.resolve(path.join(__dirname, '../../../static/jontron.jpg'))
-        console.log(jon)
         return [
           {name: 'JonTron', image: '/static/jontron.jpg', addDate: '1/4/2018'},
           {name: 'JonTronz', image: '/static/jontron.jpg', addDate: '1/4/2018'},
