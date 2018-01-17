@@ -1,17 +1,17 @@
 <template>
   <div>
     <!-- Button row -->
-    <!-- Movie grid -->
-    <mu-card style="width: 200px; display: inline-block; margin: 10px" v-for="movie in movies" :key="movie.name">
-      <mu-card-media :title="movie.name" :subTitle="`Added ${movie.addDate}`">
-        <img :src="movie.image" :alt="movie.name"/>
-      </mu-card-media>
-      <mu-card-actions>
-        <mu-icon-button icon="favorite"/>
-        <mu-icon-button icon="watch_later"/>
-        <mu-icon-button icon="delete"/>
-      </mu-card-actions>
-    </mu-card>
+    <mu-raised-button
+      label="Add Movie"
+      primary
+      @click="openAddDialog"
+    />
+
+    <!-- Movie display -->
+    <!-- TODO: add multiple views (carousel?) -->
+    <movie-tracker-card-view
+      v-if="true"
+    />
 
     <!-- TODO: 'Add movie' card -->
     <!-- <mu-card style="width: 200px; display: inline-block; margin: 10px">
@@ -19,27 +19,43 @@
         <mu-icon value="add_circle"/>
       </mu-card-media>
     </mu-card> -->
+
+    <movie-tracker-edit-dialog
+      :showDialog="showAddDialog"
+      :data="addData"
+      @close="showAddDialog = false"
+      @save="addMovie($event)"
+    />
   </div>
 </template>
 
 <script>
+  import MovieTrackerCardView from './MovieTracker/MovieTrackerCardView'
+  import MovieTrackerEditDialog from './MovieTracker/MovieTrackerEditDialog'
+
   export default {
     name: 'movie-tracker',
+    components: { MovieTrackerCardView, MovieTrackerEditDialog },
     data () {
       return {
+        showAddDialog: false,
+        addData: {}
       }
     },
-    computed: {
-      movies () {
-        return [
-          {name: 'JonTron', image: '/static/jontron.jpg', addDate: '1/4/2018'},
-          {name: 'JonTronz', image: '/static/jontron.jpg', addDate: '1/4/2018'},
-          {name: 'JonTron2', image: '/static/jontron.jpg', addDate: '1/4/2018'},
-          {name: 'JonTron5', image: '/static/jontron.jpg', addDate: '1/4/2018'},
-          {name: 'JonTroni', image: '/static/jontron.jpg', addDate: '1/4/2018'},
-          {name: 'JonTronh', image: '/static/jontron.jpg', addDate: '1/4/2018'},
-          {name: 'JonTrons', image: '/static/jontron.jpg', addDate: '1/4/2018'}
-        ]
+    methods: {
+      addMovie (data) {
+        this.$store.dispatch('addMovie', data)
+        this.showAddDialog = false
+      },
+      openAddDialog () {
+        var date = new Date()
+        var addDate = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear()
+        this.addData = {
+          name: '',
+          addDate: addDate,
+          image: ''
+        }
+        this.showAddDialog = true
       }
     }
   }
