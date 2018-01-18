@@ -64,6 +64,8 @@
 </template>
 
 <script>
+  import _ from 'lodash'
+
   import MovieTrackerEditDialog from './MovieTrackerEditDialog'
   import MovieTrackerDeleteDialog from './MovieTrackerDeleteDialog'
 
@@ -80,7 +82,8 @@
     },
     computed: {
       movies () {
-        return this.$store.state.movieTracker.movies
+        // Sorts by name. TODO: Change to dynamically sort based on settings
+        return _.sortBy(this.$store.state.movieTracker.movies, (o) => { return o.name })
       }
     },
     methods: {

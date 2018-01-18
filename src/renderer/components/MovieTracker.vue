@@ -1,15 +1,19 @@
 <template>
-  <div>
+  <div class="content">
     <!-- Button row -->
-    <mu-raised-button
-      label="Add Movie"
-      primary
-      @click="openAddDialog"
-    />
+    <mu-list class="content-left">
+      <mu-list-item @click="openAddDialog" @mouseenter="showMovieTip = true" @mouseleave="showMovieTip = false">
+        <mu-icon value="add_box"/>
+      </mu-list-item>
+      <mu-list-item>
+        <mu-icon value="settings"/>
+      </mu-list-item>
+    </mu-list>
 
     <!-- Movie display -->
     <!-- TODO: add multiple views (carousel?) -->
     <movie-tracker-card-view
+      class="content-right"
       v-if="true"
     />
 
@@ -39,6 +43,7 @@
     data () {
       return {
         showAddDialog: false,
+        showMovieTip: false,
         addData: {}
       }
     },
@@ -61,3 +66,17 @@
     }
   }
 </script>
+
+<style>
+.content {
+  overflow: hidden
+}
+.content-left {
+  float: left;
+  width: 50px;
+}
+.content-right {
+  float: right;
+  width: calc(100% - 50px)
+}
+</style>
