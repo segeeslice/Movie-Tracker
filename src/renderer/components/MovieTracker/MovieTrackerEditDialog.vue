@@ -10,6 +10,11 @@
     <!-- Form -->
     <mu-text-field v-model="newData.addDate" label="Add Date" labelFloat fullWidth disabled/><br/>
     <mu-text-field v-model="newData.name" label="Movie Name" labelFloat fullWidth/><br/>
+    <!-- NOTE: If newData.category is not initalized as an array, the values do not get set.
+               Just watch to be sure that it's being initialized when necessary. -->
+    <mu-select-field v-model="newData.category" label="Category" labelFloat fullWidth multiple>
+      <mu-menu-item v-for="category in categories" :value="category" fullWidth :title="capitalize(category)" :key="category"/>
+    </mu-select-field><br/>
     <mu-text-field v-model="newData.image" label="Image URL" labelFloat fullWidth/><br/>
     <span>Image preview</span><br/>
     <img :src="newData.image" :alt="newData.name" style="width: 200px"/>
@@ -22,6 +27,7 @@
 
 <script>
   import _ from 'lodash'
+  import Config from '../../../services/Config'
 
   export default {
     name: 'movie-tracker-edit-dialog',
@@ -30,13 +36,18 @@
       // Update editable data variable every time dialog opens
       showDialog: {
         handler () {
-          this.newData = _.clone(this.data)
+          this.newData = _.cloneDeep(this.data)
         }
       }
     },
     data () {
       return {
         newData: {}
+      }
+    },
+    computed: {
+      categories () {
+        return Config.categories
       }
     },
     methods: {
@@ -47,6 +58,9 @@
         this.$emit('save', {
           data: this.newData
         })
+      },
+      capitalize (string) {
+        return string.charAt(0).toUpperCase() + string.slice(1)
       }
     }
   }

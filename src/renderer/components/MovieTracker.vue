@@ -53,7 +53,8 @@
         this.addData = {
           name: '',
           addDate: addDate,
-          image: ''
+          image: '',
+          category: []
         }
         this.showAddDialog = true
       }

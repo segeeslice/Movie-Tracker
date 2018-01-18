@@ -105,6 +105,10 @@ let rendererConfig = {
       {
         test: /\.txt$/,
         use: 'raw-loader'
+      },
+      {
+        test: /\.yaml$/,
+        use: 'js-yaml-loader'
       }
     ]
   },

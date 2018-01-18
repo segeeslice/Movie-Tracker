@@ -32,6 +32,7 @@ const mutations = {
       name: args.data.name,
       image: args.data.image,
       addDate: args.data.addDate,
+      category: args.data.category,
       favorite: false,
       key: key++
     })
@@ -105,6 +106,7 @@ const openMovieFile = (state) => {
               image: obj.image,
               addDate: obj.addDate,
               favorite: obj.favorite,
+              category: obj.category,
               key: key++ // Puts in current key, then increments the key
             }
           }) : []
@@ -122,7 +124,8 @@ const saveMovieFile = (data) => {
       name: obj.name,
       image: obj.image,
       addDate: obj.addDate,
-      favorite: obj.favorite
+      favorite: obj.favorite,
+      category: obj.category
     }
   })
 
