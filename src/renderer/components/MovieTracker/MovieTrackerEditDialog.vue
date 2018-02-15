@@ -35,8 +35,10 @@
     watch: {
       // Update editable data variable every time dialog opens
       showDialog: {
-        handler () {
-          this.newData = _.cloneDeep(this.data)
+        handler (val) {
+          if (val === true) {
+            this.newData = _.cloneDeep(this.data)
+          }
         }
       }
     },

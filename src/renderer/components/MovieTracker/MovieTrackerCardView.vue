@@ -3,7 +3,7 @@
     <!-- NOTE: movie posters are 27x40 typically -->
     <mu-card
       style="width: 250px; display: inline-block; margin: 10px"
-      v-for="movie in movies"
+      v-for="movie in sortMovies()"
       :key="movie.key"
     >
       <!-- Card Image -->
@@ -82,11 +82,15 @@
     },
     computed: {
       movies () {
-        // Sorts by name. TODO: Change to dynamically sort based on settings
-        return _.sortBy(this.$store.state.movieTracker.movies, (o) => { return o.name })
+        return this.$store.state.movieTracker.movies
       }
     },
     methods: {
+      sortMovies () {
+        // Sorts by name. TODO: Change to dynamically sort based on settings
+        // Separate from computed movies for reactivity
+        return _.sortBy(this.movies, (o) => { return o.name })
+      },
       favorite (key) {
         this.$store.dispatch('toggleFavoriteMovie', {key: key})
       },
