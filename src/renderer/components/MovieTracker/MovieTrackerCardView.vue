@@ -2,8 +2,8 @@
   <div>
     <!-- NOTE: movie posters are 27x40 typically -->
     <mu-card
-      style="width: 250px; display: inline-block; margin: 10px"
-      v-for="movie in movies"
+      :style="cardStyle"
+      v-for="movie in sortMovies()"
       :key="movie.key"
     >
       <!-- Card Image -->
@@ -64,12 +64,15 @@
 </template>
 
 <script>
+  import _ from 'lodash'
+
   import MovieTrackerEditDialog from './MovieTrackerEditDialog'
   import MovieTrackerDeleteDialog from './MovieTrackerDeleteDialog'
 
   export default {
     name: 'movie-tracker-card-view',
     components: { MovieTrackerEditDialog, MovieTrackerDeleteDialog },
+    props: [ 'cardSize' ],
     data () {
       return {
         showEditDialog: false,
@@ -81,9 +84,23 @@
     computed: {
       movies () {
         return this.$store.state.movieTracker.movies
+      },
+      // Dynamic style of the card
+      // Card size is set in the settings component
+      cardStyle () {
+        return {
+          width: this.cardSize,
+          display: 'inline-block',
+          margin: '10px'
+        }
       }
     },
     methods: {
+      sortMovies () {
+        // Sorts by name. TODO: Change to dynamically sort based on settings
+        // Separate from computed movies for reactivity
+        return _.sortBy(this.movies, (o) => { return o.name })
+      },
       favorite (key) {
         this.$store.dispatch('toggleFavoriteMovie', {key: key})
       },

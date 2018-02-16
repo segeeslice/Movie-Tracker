@@ -1,16 +1,24 @@
 <template>
-  <div>
+  <div class="content">
     <!-- Button row -->
-    <mu-raised-button
-      label="Add Movie"
-      primary
-      @click="openAddDialog"
-    />
+    <mu-list class="content-left">
+      <mu-list-item @click="openAddDialog" @mouseenter="showMovieTip = true" @mouseleave="showMovieTip = false">
+        <mu-icon value="add_box"/>
+      </mu-list-item>
+      <mu-list-item @click="openSettings = !openSettings">
+        <mu-icon value="settings"/>
+        <!-- <movie-tracker-settings
+          :open="openSettings"
+        /> -->
+      </mu-list-item>
+    </mu-list>
 
     <!-- Movie display -->
     <!-- TODO: add multiple views (carousel?) -->
     <movie-tracker-card-view
+      class="content-right"
       v-if="true"
+      :cardSize="cardSize"
     />
 
     <!-- TODO: 'Add movie' card -->
@@ -26,20 +34,32 @@
       @close="showAddDialog = false"
       @save="addMovie($event)"
     />
+
+    <movie-tracker-settings
+      :open="openSettings"
+      @size-change="cardSize = $event"
+      @close="openSettings = false"
+    />
   </div>
 </template>
 
 <script>
   import MovieTrackerCardView from './MovieTracker/MovieTrackerCardView'
   import MovieTrackerEditDialog from './MovieTracker/MovieTrackerEditDialog'
+  import MovieTrackerSettings from './MovieTracker/MovieTrackerSettings'
 
   export default {
     name: 'movie-tracker',
-    components: { MovieTrackerCardView, MovieTrackerEditDialog },
+    components: { MovieTrackerCardView, MovieTrackerEditDialog, MovieTrackerSettings },
     data () {
       return {
         showAddDialog: false,
-        addData: {}
+        showMovieTip: false,
+        addData: {},
+        openSettings: false,
+        // Default card size
+        // TODO: Move card size to store
+        cardSize: '250px'
       }
     },
     methods: {
@@ -61,3 +81,20 @@
     }
   }
 </script>
+
+<style>
+.content {
+  overflow: hidden
+}
+.content-left {
+  float: left;
+  width: 55px;
+  /* Width from left: 70px */
+  left: 15px; right: 15px;
+  position: fixed;
+}
+.content-right {
+  float: right;
+  width: calc(100% - 55px)
+}
+</style>
