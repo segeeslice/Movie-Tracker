@@ -27,7 +27,7 @@
 
       <!-- Sort by option -->
       <strong>Sort By</strong>
-      <mu-select-field label="" v-model="sortBySelection">
+      <mu-select-field label="" v-model="sortBySelection" style="width: 100%">
         <mu-menu-item
           v-for="option in sortByOptions"
           :title="option.text"
@@ -57,7 +57,7 @@
       return {
         // Card size
         // Initialized to default
-        size: this.cardSize,
+        size: 250,
         // Card min and max resolutions
         cardMin: 200,
         cardMax: 800,
@@ -84,8 +84,8 @@
   .custom-dialog {
     width: 250px;
     height: auto;
-    position: absolute;
-    top: 50vh;
-    right: 0;
+    position: fixed;
+    top: auto;
+    left: 70px;
   }
 </style>

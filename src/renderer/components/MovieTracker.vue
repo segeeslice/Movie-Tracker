@@ -37,7 +37,6 @@
 
     <movie-tracker-settings
       :open="openSettings"
-      :cardSize="cardSize"
       @size-change="cardSize = $event"
       @close="openSettings = false"
     />
@@ -89,10 +88,13 @@
 }
 .content-left {
   float: left;
-  width: 50px;
+  width: 55px;
+  /* Width from left: 70px */
+  left: 15px; right: 15px;
+  position: fixed;
 }
 .content-right {
   float: right;
-  width: calc(100% - 50px)
+  width: calc(100% - 55px)
 }
 </style>
