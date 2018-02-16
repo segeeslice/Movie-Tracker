@@ -2,7 +2,7 @@
   <div>
     <!-- NOTE: movie posters are 27x40 typically -->
     <mu-card
-      style="width: 250px; display: inline-block; margin: 10px"
+      :style="cardStyle"
       v-for="movie in sortMovies()"
       :key="movie.key"
     >
@@ -72,6 +72,7 @@
   export default {
     name: 'movie-tracker-card-view',
     components: { MovieTrackerEditDialog, MovieTrackerDeleteDialog },
+    props: [ 'cardSize' ],
     data () {
       return {
         showEditDialog: false,
@@ -83,6 +84,15 @@
     computed: {
       movies () {
         return this.$store.state.movieTracker.movies
+      },
+      // Dynamic style of the card
+      // Card size is set in the settings component
+      cardStyle () {
+        return {
+          width: this.cardSize,
+          display: 'inline-block',
+          margin: '10px'
+        }
       }
     },
     methods: {

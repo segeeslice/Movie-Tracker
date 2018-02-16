@@ -5,8 +5,11 @@
       <mu-list-item @click="openAddDialog" @mouseenter="showMovieTip = true" @mouseleave="showMovieTip = false">
         <mu-icon value="add_box"/>
       </mu-list-item>
-      <mu-list-item>
+      <mu-list-item @click="openSettings = !openSettings">
         <mu-icon value="settings"/>
+        <!-- <movie-tracker-settings
+          :open="openSettings"
+        /> -->
       </mu-list-item>
     </mu-list>
 
@@ -15,6 +18,7 @@
     <movie-tracker-card-view
       class="content-right"
       v-if="true"
+      :cardSize="cardSize"
     />
 
     <!-- TODO: 'Add movie' card -->
@@ -30,21 +34,33 @@
       @close="showAddDialog = false"
       @save="addMovie($event)"
     />
+
+    <movie-tracker-settings
+      :open="openSettings"
+      :cardSize="cardSize"
+      @size-change="cardSize = $event"
+      @close="openSettings = false"
+    />
   </div>
 </template>
 
 <script>
   import MovieTrackerCardView from './MovieTracker/MovieTrackerCardView'
   import MovieTrackerEditDialog from './MovieTracker/MovieTrackerEditDialog'
+  import MovieTrackerSettings from './MovieTracker/MovieTrackerSettings'
 
   export default {
     name: 'movie-tracker',
-    components: { MovieTrackerCardView, MovieTrackerEditDialog },
+    components: { MovieTrackerCardView, MovieTrackerEditDialog, MovieTrackerSettings },
     data () {
       return {
         showAddDialog: false,
         showMovieTip: false,
-        addData: {}
+        addData: {},
+        openSettings: false,
+        // Default card size
+        // TODO: Move card size to store
+        cardSize: '250px'
       }
     },
     methods: {
