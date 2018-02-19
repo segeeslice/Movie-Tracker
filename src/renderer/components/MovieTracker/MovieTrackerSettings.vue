@@ -27,7 +27,12 @@
 
       <!-- Sort by option -->
       <strong>Sort By</strong>
-      <mu-select-field label="" v-model="sortBySelection" style="width: 100%">
+      <mu-select-field
+        label=""
+        v-model="sortBySelection"
+        style="width: 100%"
+        @input="$emit('sort-change', $event)"
+      >
         <mu-menu-item
           v-for="option in sortByOptions"
           :title="option.text"
@@ -35,6 +40,8 @@
           :key="option.val"
         />
       </mu-select-field>
+
+      <!-- TODO: Filter option -->
 
     </mu-content-block>
 

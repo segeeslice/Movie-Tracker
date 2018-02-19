@@ -72,7 +72,7 @@
   export default {
     name: 'movie-tracker-card-view',
     components: { MovieTrackerEditDialog, MovieTrackerDeleteDialog },
-    props: [ 'cardSize' ],
+    props: [ 'cardSize', 'sortBy' ],
     data () {
       return {
         showEditDialog: false,
@@ -99,7 +99,7 @@
       sortMovies () {
         // Sorts by name. TODO: Change to dynamically sort based on settings
         // Separate from computed movies for reactivity
-        return _.sortBy(this.movies, (o) => { return o.name })
+        return _.sortBy(this.movies, (o) => { return o[this.sortBy] })
       },
       favorite (key) {
         this.$store.dispatch('toggleFavoriteMovie', {key: key})
