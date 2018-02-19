@@ -18,7 +18,7 @@
         :min="cardMin"
         :max="cardMax"
         :step="cardStep"
-        @input="$emit('size-change', formatSize($event))"
+        @input="changeSetting('cardSize', formatSize($event))"
       />
       <!-- Pixel width display -->
       &nbsp; &nbsp; <span>{{ formatSize(size) }}</span>
@@ -31,7 +31,7 @@
         label=""
         v-model="sortBySelection"
         style="width: 100%"
-        @input="$emit('sort-change', $event)"
+        @input="changeSetting('sortBy', $event)"
       >
         <mu-menu-item
           v-for="option in sortByOptions"
@@ -82,6 +82,13 @@
       // Format the size to be used in dynamic style
       formatSize (size) {
         return String(size) + 'px'
+      },
+      // Change setting in store
+      changeSetting (name, val) {
+        this.$store.commit('changeSetting', {
+          name: name,
+          val: val
+        })
       }
     }
   }

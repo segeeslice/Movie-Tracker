@@ -1,3 +1,4 @@
+<!-- TODO: No image default poster -->
 <template>
   <div>
     <!-- NOTE: movie posters are 27x40 typically -->
@@ -35,13 +36,6 @@
           @click="openDeleteDialog(movie.key)"
         />
       </mu-card-actions>
-
-      <!-- TODO: 'Add movie' card -->
-      <!-- <mu-card style="width: 200px; display: inline-block; margin: 10px">
-        <mu-card-media>
-          <mu-icon value="add_circle"/>
-        </mu-card-media>
-      </mu-card> -->
     </mu-card>
 
     <!-- Dialogs -->
@@ -72,7 +66,7 @@
   export default {
     name: 'movie-tracker-card-view',
     components: { MovieTrackerEditDialog, MovieTrackerDeleteDialog },
-    props: [ 'cardSize', 'sortBy' ],
+    props: [],
     data () {
       return {
         showEditDialog: false,
@@ -85,11 +79,14 @@
       movies () {
         return this.$store.state.movieTracker.movies
       },
+      settings () {
+        return this.$store.state.movieTracker.settings
+      },
       // Dynamic style of the card
       // Card size is set in the settings component
       cardStyle () {
         return {
-          width: this.cardSize,
+          width: this.settings.cardSize,
           display: 'inline-block',
           margin: '10px'
         }
@@ -99,7 +96,7 @@
       sortMovies () {
         // Sorts by name. TODO: Change to dynamically sort based on settings
         // Separate from computed movies for reactivity
-        return _.sortBy(this.movies, (o) => { return o[this.sortBy] })
+        return _.sortBy(this.movies, (o) => { return o[this.settings.sortBy] })
       },
       favorite (key) {
         this.$store.dispatch('toggleFavoriteMovie', {key: key})

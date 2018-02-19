@@ -7,10 +7,16 @@ var key = 0
 
 const state = {
   // Image master object
-  movies: []
+  movies: [],
+  // Settings master object
+  settings: {
+    cardSize: '250px',
+    sortBy: 'name'
+  }
 }
 
 const mutations = {
+  // ---------- Movie data modifications ----------
   setMovies (state, args) {
     state.movies = args.data
   },
@@ -52,6 +58,10 @@ const mutations = {
         break
       }
     }
+  },
+  // ---------- Settings modifications ----------
+  changeSetting (state, args) {
+    state.settings[args.name] = args.val
   }
 }
 
