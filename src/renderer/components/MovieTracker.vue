@@ -19,6 +19,7 @@
       class="content-right"
       v-if="true"
       :cardSize="cardSize"
+      :sortBy="sortBy"
     />
 
     <!-- TODO: 'Add movie' card -->
@@ -38,6 +39,7 @@
     <movie-tracker-settings
       :open="openSettings"
       @size-change="cardSize = $event"
+      @sort-change="sortBy = $event"
       @close="openSettings = false"
     />
   </div>
@@ -59,7 +61,8 @@
         openSettings: false,
         // Default card size
         // TODO: Move card size to store
-        cardSize: '250px'
+        cardSize: '250px',
+        sortBy: 'name'
       }
     },
     methods: {
