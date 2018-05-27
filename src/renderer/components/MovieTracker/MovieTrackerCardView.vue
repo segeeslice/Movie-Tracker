@@ -9,7 +9,7 @@
     >
       <!-- Card Image -->
       <mu-card-media :title="movie.name" :subTitle="`Added ${movie.addDate}`">
-        <img :src="movie.image" :alt="movie.name"/>
+        <img :src="movie.image || defaultPosterPath" :alt="movie.name"/>
       </mu-card-media>
 
       <!-- Card buttons -->
@@ -59,6 +59,7 @@
 
 <script>
   import _ from 'lodash'
+  import Config from '../../../services/Config'
 
   import MovieTrackerEditDialog from './MovieTrackerEditDialog'
   import MovieTrackerDeleteDialog from './MovieTrackerDeleteDialog'
@@ -72,7 +73,8 @@
         showEditDialog: false,
         editData: {},
         showDeleteDialog: false,
-        deleteKey: null
+        deleteKey: null,
+        defaultPosterPath: Config.defaultPosterPath
       }
     },
     computed: {
