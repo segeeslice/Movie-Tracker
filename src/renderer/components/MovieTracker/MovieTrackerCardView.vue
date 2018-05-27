@@ -1,4 +1,3 @@
-<!-- TODO: No image default poster -->
 <template>
   <div>
     <!-- NOTE: movie posters are 27x40 typically -->
@@ -23,7 +22,7 @@
 
         <mu-icon-button
           icon="watch_later"
-          @click="watchLater()"
+          @click="openWatchLaterDialog(movie)"
         />
 
         <mu-icon-button
@@ -39,11 +38,18 @@
     </mu-card>
 
     <!-- Dialogs -->
+    <movie-tracker-watch-later
+      :showDialog="showWatchLaterDialog"
+      :data="watchLaterData"
+      @close="closeWatchLaterDialog()"
+      @save="saveMovie($event); closeWatchLaterDialog()"
+    />
+
     <movie-tracker-edit-dialog
       :showDialog="showEditDialog"
       :data="editData"
-      @close="showEditDialog = false"
-      @save="saveMovie($event)"
+      @close="closeEditDialog()"
+      @save="saveMovie($event); closeEditDialog()"
     />
 
     <movie-tracker-delete-dialog
@@ -62,16 +68,19 @@
   import Config from '../../../services/Config'
 
   import MovieTrackerEditDialog from './MovieTrackerEditDialog'
+  import MovieTrackerWatchLater from './MovieTrackerWatchLater'
   import MovieTrackerDeleteDialog from './MovieTrackerDeleteDialog'
 
   export default {
     name: 'movie-tracker-card-view',
-    components: { MovieTrackerEditDialog, MovieTrackerDeleteDialog },
+    components: { MovieTrackerEditDialog, MovieTrackerWatchLater, MovieTrackerDeleteDialog },
     props: [],
     data () {
       return {
         showEditDialog: false,
         editData: {},
+        showWatchLaterDialog: false,
+        watchLaterData: {},
         showDeleteDialog: false,
         deleteKey: null,
         defaultPosterPath: Config.defaultPosterPath
@@ -103,12 +112,21 @@
       favorite (key) {
         this.$store.dispatch('toggleFavoriteMovie', {key: key})
       },
-      watchLater () {
-        console.log('oh')
+      openWatchLaterDialog (movie) {
+        this.watchLaterData = movie
+        this.showWatchLaterDialog = true
+      },
+      closeWatchLaterDialog () {
+        this.showWatchLaterDialog = false
+        this.watchLaterData = {}
       },
       openEditDialog (movie) {
         this.editData = movie
         this.showEditDialog = true
+      },
+      closeEditDialog () {
+        this.showEditDialog = false
+        this.editData = {}
       },
       openDeleteDialog (key) {
         this.deleteKey = key
@@ -120,7 +138,6 @@
       },
       saveMovie (data) {
         this.$store.dispatch('setMovie', data)
-        this.showEditDialog = false
       }
     }
   }
