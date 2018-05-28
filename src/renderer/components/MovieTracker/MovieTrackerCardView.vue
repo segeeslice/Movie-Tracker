@@ -1,4 +1,3 @@
-<!-- TODO: No image default poster -->
 <template>
   <div>
     <!-- NOTE: movie posters are 27x40 typically -->
@@ -17,13 +16,14 @@
         <!-- Displays red if item is favorited -->
         <mu-icon-button
           icon="favorite"
-          @click="favorite(movie.key)"
+          @click="toggleFavorite(movie.key)"
           :class="{favoriteColor: movie.favorite}"
         />
 
         <mu-icon-button
-          icon="watch_later"
-          @click="watchLater()"
+          :icon="getIcon(movie)"
+          @click="toggleWatchLater(movie.key)"
+          :class="{watchedColor: movie.watchLater === -1}"
         />
 
         <mu-icon-button
@@ -42,8 +42,8 @@
     <movie-tracker-edit-dialog
       :showDialog="showEditDialog"
       :data="editData"
-      @close="showEditDialog = false"
-      @save="saveMovie($event)"
+      @close="closeEditDialog()"
+      @save="saveMovie($event); closeEditDialog()"
     />
 
     <movie-tracker-delete-dialog
@@ -100,15 +100,22 @@
         // Separate from computed movies for reactivity
         return _.sortBy(this.movies, (o) => { return o[this.settings.sortBy] })
       },
-      favorite (key) {
+      toggleFavorite (key) {
         this.$store.dispatch('toggleFavoriteMovie', {key: key})
       },
-      watchLater () {
-        console.log('oh')
+      toggleWatchLater (key) {
+        this.$store.dispatch('toggleWatchLater', {key: key})
+      },
+      getIcon (movie) {
+        return movie.watchLater === -1 ? 'check_circle' : 'watch_later'
       },
       openEditDialog (movie) {
         this.editData = movie
         this.showEditDialog = true
+      },
+      closeEditDialog () {
+        this.showEditDialog = false
+        this.editData = {}
       },
       openDeleteDialog (key) {
         this.deleteKey = key
@@ -120,7 +127,6 @@
       },
       saveMovie (data) {
         this.$store.dispatch('setMovie', data)
-        this.showEditDialog = false
       }
     }
   }
@@ -129,5 +135,8 @@
 <style>
 .favoriteColor {
   color: #DC143C
+}
+.watchedColor {
+  color: #25a80f
 }
 </style>

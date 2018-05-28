@@ -73,7 +73,8 @@
         sortByOptions: [
           {text: 'Name', val: 'name'},
           {text: 'Add Date', val: 'addDate'},
-          {text: 'Favorites', val: 'favorite'}
+          {text: 'Favorites', val: 'favorite'},
+          {text: 'Watched', val: 'watchLater'}
         ],
         sortBySelection: 'name'
       }
