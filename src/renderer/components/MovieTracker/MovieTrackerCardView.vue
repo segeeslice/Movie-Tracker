@@ -16,13 +16,14 @@
         <!-- Displays red if item is favorited -->
         <mu-icon-button
           icon="favorite"
-          @click="favorite(movie.key)"
+          @click="toggleFavorite(movie.key)"
           :class="{favoriteColor: movie.favorite}"
         />
 
         <mu-icon-button
-          icon="watch_later"
-          @click="openWatchLaterDialog(movie)"
+          :icon="getIcon(movie)"
+          @click="toggleWatchLater(movie.key)"
+          :class="{watchedColor: movie.watchLater === -1}"
         />
 
         <mu-icon-button
@@ -38,13 +39,6 @@
     </mu-card>
 
     <!-- Dialogs -->
-    <movie-tracker-watch-later
-      :showDialog="showWatchLaterDialog"
-      :data="watchLaterData"
-      @close="closeWatchLaterDialog()"
-      @save="saveMovie($event); closeWatchLaterDialog()"
-    />
-
     <movie-tracker-edit-dialog
       :showDialog="showEditDialog"
       :data="editData"
@@ -68,19 +62,16 @@
   import Config from '../../../services/Config'
 
   import MovieTrackerEditDialog from './MovieTrackerEditDialog'
-  import MovieTrackerWatchLater from './MovieTrackerWatchLater'
   import MovieTrackerDeleteDialog from './MovieTrackerDeleteDialog'
 
   export default {
     name: 'movie-tracker-card-view',
-    components: { MovieTrackerEditDialog, MovieTrackerWatchLater, MovieTrackerDeleteDialog },
+    components: { MovieTrackerEditDialog, MovieTrackerDeleteDialog },
     props: [],
     data () {
       return {
         showEditDialog: false,
         editData: {},
-        showWatchLaterDialog: false,
-        watchLaterData: {},
         showDeleteDialog: false,
         deleteKey: null,
         defaultPosterPath: Config.defaultPosterPath
@@ -109,16 +100,14 @@
         // Separate from computed movies for reactivity
         return _.sortBy(this.movies, (o) => { return o[this.settings.sortBy] })
       },
-      favorite (key) {
+      toggleFavorite (key) {
         this.$store.dispatch('toggleFavoriteMovie', {key: key})
       },
-      openWatchLaterDialog (movie) {
-        this.watchLaterData = movie
-        this.showWatchLaterDialog = true
+      toggleWatchLater (key) {
+        this.$store.dispatch('toggleWatchLater', {key: key})
       },
-      closeWatchLaterDialog () {
-        this.showWatchLaterDialog = false
-        this.watchLaterData = {}
+      getIcon (movie) {
+        return movie.watchLater === -1 ? 'check_circle' : 'watch_later'
       },
       openEditDialog (movie) {
         this.editData = movie
@@ -146,5 +135,8 @@
 <style>
 .favoriteColor {
   color: #DC143C
+}
+.watchedColor {
+  color: #25a80f
 }
 </style>
