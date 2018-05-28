@@ -10,4 +10,6 @@ categories:
   - foreign
   - thriller
   - marathon
+
+defaultPosterPath: 'static/generic-movie-poster.jpg'
 ...

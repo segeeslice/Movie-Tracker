@@ -40,6 +40,7 @@ const mutations = {
       addDate: args.data.addDate,
       category: args.data.category,
       favorite: false,
+      watchLater: 0,
       key: key++
     })
   },
@@ -55,6 +56,14 @@ const mutations = {
     for (var index in state.movies) {
       if (state.movies[index].key === args.key) {
         state.movies[index].favorite = !state.movies[index].favorite
+        break
+      }
+    }
+  },
+  toggleWatchLater (state, args) {
+    for (var index in state.movies) {
+      if (state.movies[index].key === args.key) {
+        state.movies[index].watchLater = state.movies[index].watchLater === -1 ? 0 : -1
         break
       }
     }
@@ -89,6 +98,10 @@ const actions = {
   toggleFavoriteMovie ({ commit }, args) {
     commit('toggleFavoriteMovie', args)
     commit('saveMoviesToFile', {data: state.movies})
+  },
+  toggleWatchLater ({ commit }, args) {
+    commit('toggleWatchLater', args)
+    commit('saveMoviesToFile', {data: state.movies})
   }
 }
 
@@ -117,6 +130,7 @@ const openMovieFile = (state) => {
               addDate: obj.addDate,
               favorite: obj.favorite,
               category: obj.category,
+              watchLater: obj.watchLater,
               key: key++ // Puts in current key, then increments the key
             }
           }) : []
@@ -135,7 +149,8 @@ const saveMovieFile = (data) => {
       image: obj.image,
       addDate: obj.addDate,
       favorite: obj.favorite,
-      category: obj.category
+      category: obj.category,
+      watchLater: obj.watchLater
     }
   })
 
