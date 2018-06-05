@@ -22,13 +22,19 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,
-    width: 1000
+    width: 1000,
+    show: false
   })
 
   // Disable the menu toolbar
   mainWindow.setMenu(null)
 
   mainWindow.loadURL(winURL)
+
+  // Only show once ready; gracefully open
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+  })
 
   mainWindow.on('closed', () => {
     mainWindow = null
