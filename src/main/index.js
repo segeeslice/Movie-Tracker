@@ -25,6 +25,9 @@ function createWindow () {
     width: 1000
   })
 
+  // Disable the menu toolbar
+  mainWindow.setMenu(null)
+
   mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {
