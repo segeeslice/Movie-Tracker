@@ -20,12 +20,24 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
+    title: 'Movie Tracker',
     height: 563,
     useContentSize: true,
-    width: 1000
+    width: 1000,
+    show: false,
+    center: true
   })
 
+  // Disable the menu toolbar
+  mainWindow.setMenu(null)
+
   mainWindow.loadURL(winURL)
+
+  // Only show once ready; gracefully open
+  // NOTE: Can also use background color feature if this proves to take too long
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+  })
 
   mainWindow.on('closed', () => {
     mainWindow = null
