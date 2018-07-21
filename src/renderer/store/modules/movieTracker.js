@@ -11,7 +11,8 @@ const state = {
   // Settings master object
   settings: {
     cardSize: '250px',
-    sortBy: 'name'
+    sortBy: 'name',
+    sortOrder: 'asc'
   }
 }
 

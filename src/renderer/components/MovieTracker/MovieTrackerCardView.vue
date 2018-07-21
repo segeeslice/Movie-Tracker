@@ -96,9 +96,7 @@
     },
     methods: {
       sortMovies () {
-        // Sorts by name. TODO: Change to dynamically sort based on settings
-        // Separate from computed movies for reactivity
-        return _.sortBy(this.movies, (o) => { return o[this.settings.sortBy] })
+        return _.orderBy(this.movies, [this.settings.sortBy, 'name'], [this.settings.sortOrder, 'asc'])
       },
       toggleFavorite (key) {
         this.$store.dispatch('toggleFavoriteMovie', {key: key})
