@@ -3,9 +3,10 @@ import App from './App'
 import store from './store'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
-import 'muse-ui/dist/theme-carbon.css' // use carbon theme
+import theme from 'muse-ui/lib/theme'
 
 Vue.use(MuseUI)
+theme.use('light')
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.config.productionTip = false

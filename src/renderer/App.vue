@@ -1,20 +1,17 @@
 <template>
   <div>
     <mu-appbar title="Movie Tracker">
-      <mu-tabs :value="activeTab" slot="right">
+      <mu-tabs :value.sync="activeTab" slot="right">
         <mu-tab
           v-for="item in nav" :key="item.ref"
-          @click="navigate(item.ref)"
-          :value="item.ref"
-          :icon="item.icon"
-        />
+        >
+          <mu-icon :value="item.icon"/>
+        </mu-tab>
       </mu-tabs>
     </mu-appbar>
 
-    <mu-content-block>
-      <movie-tracker v-if="activeTab === 'movie-tracker'"/>
-      <about v-if="activeTab === 'about'"/>
-    </mu-content-block>
+    <movie-tracker v-if="activeTab === 0"/>
+    <about v-if="activeTab === 1"/>
   </div>
 </template>
 
@@ -39,20 +36,13 @@
         nav: [
           {
             icon: 'movie',
-            text: 'Movie Tracker',
             ref: 'movie-tracker'
           }, {
             icon: 'info_outline',
-            text: 'About',
             ref: 'about'
           }
         ],
-        activeTab: 'movie-tracker'
-      }
-    },
-    methods: {
-      navigate (tab) {
-        this.activeTab = tab
+        activeTab: 0
       }
     }
   }

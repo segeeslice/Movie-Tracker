@@ -14,27 +14,21 @@
 
         <!-- Card buttons -->
         <mu-card-actions>
-          <mu-icon-button
-              icon="favorite"
-              @click="toggleFavorite(movie.key)"
-              :class="{favoriteColor: movie.favorite}"
-            />
+          <mu-button icon @click="toggleFavorite(movie.key)" :class="{favoriteColor: movie.favorite}">
+            <mu-icon value="favorite"/>
+          </mu-button>
 
-            <mu-icon-button
-              :icon="getIcon(movie)"
-              @click="toggleWatchLater(movie.key)"
-              :class="{watchedColor: movie.watchLater === -1}"
-            />
+          <mu-button icon @click="toggleWatchLater(movie.key)" :class="{watchedColor: movie.watchLater === -1}">
+            <mu-icon :value="getIcon(movie)"/>
+          </mu-button>
 
-            <mu-icon-button
-              icon="edit"
-              @click="openEditDialog(movie)"
-            />
+          <mu-button icon @click="openEditDialog(movie)">
+            <mu-icon value="edit"/>
+          </mu-button>
 
-            <mu-icon-button
-              icon="delete"
-              @click="openDeleteDialog(movie.key)"
-            />
+          <mu-button icon @click="openDeleteDialog(movie.key)">
+            <mu-icon value="delete"/>
+          </mu-button>
         </mu-card-actions>
       </mu-card>
     </span>

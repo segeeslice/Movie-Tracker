@@ -27,23 +27,23 @@
      <!-- Category select -->
      <!-- NOTE: If newData.category is not initalized as an array, the values do not get set.
                 Just watch to be sure that it's being initialized when necessary. -->
-    <mu-select-field
+    <mu-select
       v-model="newData.category"
       label="Category"
       labelFloat
-      fullWidth
+      full-width
       multiple
-      separator=", "
+      chips
     >
       <!-- Categories defined in config file -->
-      <mu-menu-item
+      <mu-option
         v-for="category in categories"
         :value="category"
         :key="category"
-        :title="capitalize(category)"
-        fullWidth
+        :label="capitalize(category)"
+        full-width
       />
-    </mu-select-field>
+    </mu-select>
     <br/>
 
     <!-- Image selection and preview -->
@@ -57,8 +57,8 @@
     <img :src="newData.image" :alt="newData.name" style="width: 200px"/>
 
     <!-- Buttons -->
-    <mu-flat-button slot="actions" @click="close" label="Cancel"/>
-    <mu-flat-button slot="actions" @click="save" primary label="Save"/>
+    <mu-button flat slot="actions" @click="close">Cancel</mu-button>
+    <mu-button flat slot="actions" @click="save" primary>Save</mu-button>
   </mu-dialog>
 </template>
 

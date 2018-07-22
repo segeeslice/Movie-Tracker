@@ -2,14 +2,16 @@
   <div class="content">
     <!-- Button row -->
     <mu-list class="content-left">
-      <mu-list-item @click="openAddDialog" @mouseenter="showMovieTip = true" @mouseleave="showMovieTip = false">
-        <mu-icon value="add_box"/>
+      <mu-list-item button @click="openAddDialog">
+        <!-- <mu-tooltip content="Add movie" placement="right"> -->
+          <mu-icon value="add_box"/>
+        <!-- </mu-tooltip> -->
       </mu-list-item>
-      <mu-list-item @click="openSettings = !openSettings">
-        <mu-icon value="settings"/>
-        <!-- <movie-tracker-settings
-          :open="openSettings"
-        /> -->
+
+      <mu-list-item button @click="openSettings = !openSettings">
+        <!-- <mu-tooltip content="Settings" placement="right"> -->
+          <mu-icon value="settings"/>
+        <!-- </mu-tooltip> -->
       </mu-list-item>
     </mu-list>
 
@@ -52,7 +54,6 @@
     data () {
       return {
         showAddDialog: false,
-        showMovieTip: false,
         addData: {},
         openSettings: false
       }
