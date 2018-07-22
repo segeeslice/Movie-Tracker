@@ -41,6 +41,20 @@
         />
       </mu-select-field>
 
+      <mu-select-field
+        label=""
+        v-model="sortOrder"
+        style="width: 100%"
+        @input="changeSetting('sortOrder', $event)"
+      >
+        <mu-menu-item
+          v-for="option in sortOrderOptions"
+          :title="option.text"
+          :value="option.val"
+          :key="option.val"
+        />
+      </mu-select-field>
+
       <!-- TODO: Filter option -->
 
     </mu-content-block>
@@ -76,7 +90,12 @@
           {text: 'Favorites', val: 'favorite'},
           {text: 'Watched', val: 'watchLater'}
         ],
-        sortBySelection: 'name'
+        sortOrderOptions: [
+          {text: 'Ascending', val: 'asc'},
+          {text: 'Descending', val: 'desc'}
+        ],
+        sortBySelection: 'name',
+        sortOrder: 'asc'
       }
     },
     methods: {
