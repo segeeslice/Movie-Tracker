@@ -12,8 +12,10 @@
     </mu-appbar>
 
     <mu-content-block>
-      <movie-tracker v-if="activeTab === 'movie-tracker'"/>
-      <about v-if="activeTab === 'about'"/>
+      <transition name="fade">
+        <movie-tracker v-if="activeTab === 'movie-tracker'"/>
+        <about v-if="activeTab === 'about'"/>
+      </transition>
     </mu-content-block>
   </div>
 </template>
@@ -59,5 +61,16 @@
 </script>
 
 <style>
-  /* CSS */
+  .fade-enter-active {
+    transition: opacity .15s ease-out;
+    transition-delay: .15s;
+  }
+
+  .fade-leave-active {
+    transition: opacity .15s ease-out;
+  }
+
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
 </style>
