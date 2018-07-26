@@ -2,71 +2,73 @@
 <template>
   <!-- NOTE: A custom dialog was necessary due to the default drawer
              closing when you clicked on it.-->
-  <mu-paper class="custom-dialog" v-show="open">
-    <mu-content-block>
-      <span>Settings</span>
-    </mu-content-block>
+  <transition name="slide-fade">
+    <mu-paper class="custom-dialog" v-show="open">
+      <mu-content-block>
+        <span>Settings</span>
+      </mu-content-block>
 
-    <mu-divider/>
-    <br/>
+      <mu-divider/>
+      <br/>
 
-    <mu-content-block>
-      <!-- Card size option -->
-      <strong>Card Size</strong>
-      <mu-slider
-        v-model="size"
-        :min="cardMin"
-        :max="cardMax"
-        :step="cardStep"
-        @input="changeSetting('cardSize', formatSize($event))"
-      />
-      <!-- Pixel width display -->
-      &nbsp; &nbsp; <span>{{ formatSize(size) }}</span>
-
-      <br/><br/>
-
-      <!-- Sort by option -->
-      <strong>Sort By</strong>
-      <mu-select-field
-        label=""
-        v-model="sortBySelection"
-        style="width: 100%"
-        @input="changeSetting('sortBy', $event)"
-      >
-        <mu-menu-item
-          v-for="option in sortByOptions"
-          :title="option.text"
-          :value="option.val"
-          :key="option.val"
+      <mu-content-block>
+        <!-- Card size option -->
+        <strong>Card Size</strong>
+        <mu-slider
+          v-model="size"
+          :min="cardMin"
+          :max="cardMax"
+          :step="cardStep"
+          @input="changeSetting('cardSize', formatSize($event))"
         />
-      </mu-select-field>
+        <!-- Pixel width display -->
+        &nbsp; &nbsp; <span>{{ formatSize(size) }}</span>
 
-      <mu-select-field
-        label=""
-        v-model="sortOrder"
-        style="width: 100%"
-        @input="changeSetting('sortOrder', $event)"
-      >
-        <mu-menu-item
-          v-for="option in sortOrderOptions"
-          :title="option.text"
-          :value="option.val"
-          :key="option.val"
-        />
-      </mu-select-field>
+        <br/><br/>
 
-      <!-- TODO: Filter option -->
+        <!-- Sort by option -->
+        <strong>Sort By</strong>
+        <mu-select-field
+          label=""
+          v-model="sortBySelection"
+          style="width: 100%"
+          @input="changeSetting('sortBy', $event)"
+        >
+          <mu-menu-item
+            v-for="option in sortByOptions"
+            :title="option.text"
+            :value="option.val"
+            :key="option.val"
+          />
+        </mu-select-field>
 
-    </mu-content-block>
+        <mu-select-field
+          label=""
+          v-model="sortOrder"
+          style="width: 100%"
+          @input="changeSetting('sortOrder', $event)"
+        >
+          <mu-menu-item
+            v-for="option in sortOrderOptions"
+            :title="option.text"
+            :value="option.val"
+            :key="option.val"
+          />
+        </mu-select-field>
 
-    <mu-divider/>
-    <br/>
+        <!-- TODO: Filter option -->
 
-    <mu-content-block>
-      <mu-flat-button @click="$emit('close')" primary label="Close" icon="close"/>
-    </mu-content-block>
+      </mu-content-block>
 
-  </mu-paper>
+      <mu-divider/>
+      <br/>
+
+      <mu-content-block>
+        <mu-flat-button @click="$emit('close')" primary label="Close" icon="close"/>
+      </mu-content-block>
+
+    </mu-paper>
+  </transition>
 </template>
 
 <script>
@@ -121,5 +123,18 @@
     position: fixed;
     top: auto;
     left: 70px;
+  }
+
+  .slide-fade-enter-active {
+    transition: all .2s ease-out;
+  }
+
+  .slide-fade-leave-active {
+    transition: all .2s ease-in;
+  }
+
+  .slide-fade-enter, .slide-fade-leave-to {
+    opacity: 0;
+    transform: translateX(-30px);
   }
 </style>
