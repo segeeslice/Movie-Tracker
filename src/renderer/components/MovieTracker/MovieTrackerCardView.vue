@@ -1,42 +1,47 @@
 <template>
   <div>
-    <!-- NOTE: movie posters are 27x40 typically -->
-    <mu-card
-      :style="cardStyle"
-      v-for="movie in sortMovies()"
-      :key="movie.key"
-    >
-      <!-- Card Image -->
-      <mu-card-media :title="movie.name" :subTitle="`Added ${movie.addDate}`">
-        <img :src="movie.image || defaultPosterPath" :alt="movie.name"/>
-      </mu-card-media>
+    <transition-group name="movie-in">
+      <span v-for="(movie, index) in sortMovies()" :key="movie.key">
+        <mu-divider v-if="shouldDivide(movie, index)"/>
 
-      <!-- Card buttons -->
-      <mu-card-actions>
-        <!-- Displays red if item is favorited -->
-        <mu-icon-button
-          icon="favorite"
-          @click="toggleFavorite(movie.key)"
-          :class="{favoriteColor: movie.favorite}"
-        />
+        <mu-card
+          :style="cardStyle"
+          :key="movie.key"
+        >
+          <!-- Card Image -->
+          <mu-card-media :title="movie.name" :subTitle="`Added ${movie.addDate}`">
+            <img :src="movie.image || defaultPosterPath" :alt="movie.name"/>
+          </mu-card-media>
 
-        <mu-icon-button
-          :icon="getIcon(movie)"
-          @click="toggleWatchLater(movie.key)"
-          :class="{watchedColor: movie.watchLater === -1}"
-        />
+          <!-- Card buttons -->
+          <mu-card-actions>
+            <mu-icon-button
+                icon="favorite"
+                @click="toggleFavorite(movie.key)"
+                :class="{favoriteColor: movie.favorite}"
+                style="transition: all .2s"
+              />
 
-        <mu-icon-button
-          icon="edit"
-          @click="openEditDialog(movie)"
-        />
+              <mu-icon-button
+                :icon="getIcon(movie)"
+                @click="toggleWatchLater(movie.key)"
+                :class="{watchedColor: movie.watchLater === -1}"
+                style="transition: all .2s"
+              />
 
-        <mu-icon-button
-          icon="delete"
-          @click="openDeleteDialog(movie.key)"
-        />
-      </mu-card-actions>
-    </mu-card>
+              <mu-icon-button
+                icon="edit"
+                @click="openEditDialog(movie)"
+              />
+
+              <mu-icon-button
+                icon="delete"
+                @click="openDeleteDialog(movie.key)"
+              />
+          </mu-card-actions>
+        </mu-card>
+      </span>
+    </transition-group>
 
     <!-- Dialogs -->
     <movie-tracker-edit-dialog
@@ -90,15 +95,22 @@
         return {
           width: this.settings.cardSize,
           display: 'inline-block',
-          margin: '10px'
+          margin: '10px',
+          transition: 'all .4s'
         }
       }
     },
     methods: {
       sortMovies () {
-        // Sorts by name. TODO: Change to dynamically sort based on settings
-        // Separate from computed movies for reactivity
-        return _.sortBy(this.movies, (o) => { return o[this.settings.sortBy] })
+        return _.orderBy(this.movies, [this.settings.sortBy, 'name'], [this.settings.sortOrder, 'asc'])
+      },
+      shouldDivide (movie, index) {
+        if (index === 0 || !['watchLater', 'favorite'].includes(this.settings.sortBy)) {
+          return false
+        } else {
+          let sorted = this.sortMovies()
+          return sorted[index][this.settings.sortBy] !== sorted[index - 1][this.settings.sortBy]
+        }
       },
       toggleFavorite (key) {
         this.$store.dispatch('toggleFavoriteMovie', {key: key})
@@ -138,5 +150,19 @@
 }
 .watchedColor {
   color: #25a80f
+}
+
+.movie-in-enter-active, .movie-in-leave-active {
+  transition: all .2s ease-out;
+}
+
+.movie-in-enter {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.movie-in-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>

@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
+import path from 'path'
 
 /**
  * Set `__static` path to static files in production
@@ -20,12 +21,25 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
+    title: 'Movie Tracker',
     height: 563,
     useContentSize: true,
-    width: 1000
+    width: 1000,
+    show: false,
+    center: true,
+    icon: path.join(__dirname, '../../icons/icon-v1.png')
   })
 
+  // Disable the menu toolbar
+  mainWindow.setMenu(null)
+
   mainWindow.loadURL(winURL)
+
+  // Only show once ready; gracefully open
+  // NOTE: Can also use background color feature if this proves to take too long
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+  })
 
   mainWindow.on('closed', () => {
     mainWindow = null
