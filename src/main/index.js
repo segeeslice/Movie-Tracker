@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
+import path from 'path'
 
 /**
  * Set `__static` path to static files in production
@@ -25,7 +26,8 @@ function createWindow () {
     useContentSize: true,
     width: 1000,
     show: false,
-    center: true
+    center: true,
+    icon: path.join(__dirname, '../../icons/icon-v1.png')
   })
 
   // Disable the menu toolbar
