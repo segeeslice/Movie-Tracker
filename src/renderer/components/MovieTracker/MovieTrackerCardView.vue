@@ -19,12 +19,14 @@
                 icon="favorite"
                 @click="toggleFavorite(movie.key)"
                 :class="{favoriteColor: movie.favorite}"
+                style="transition: all .2s"
               />
 
               <mu-icon-button
                 :icon="getIcon(movie)"
                 @click="toggleWatchLater(movie.key)"
                 :class="{watchedColor: movie.watchLater === -1}"
+                style="transition: all .2s"
               />
 
               <mu-icon-button
@@ -93,7 +95,8 @@
         return {
           width: this.settings.cardSize,
           display: 'inline-block',
-          margin: '10px'
+          margin: '10px',
+          transition: 'all .4s'
         }
       }
     },
