@@ -1,43 +1,47 @@
 <template>
   <div>
-    <span v-for="(movie, index) in sortMovies()">
-      <mu-divider v-if="shouldDivide(movie, index)"/>
+    <transition-group name="movie-in">
+      <span v-for="(movie, index) in sortMovies()" :key="movie.key">
+        <mu-divider v-if="shouldDivide(movie, index)"/>
 
-      <mu-card
-        :style="cardStyle"
-        :key="movie.key"
-      >
-        <!-- Card Image -->
-        <mu-card-media :title="movie.name" :subTitle="`Added ${movie.addDate}`">
-          <img :src="movie.image || defaultPosterPath" :alt="movie.name"/>
-        </mu-card-media>
+        <mu-card
+          :style="cardStyle"
+          :key="movie.key"
+        >
+          <!-- Card Image -->
+          <mu-card-media :title="movie.name" :subTitle="`Added ${movie.addDate}`">
+            <img :src="movie.image || defaultPosterPath" :alt="movie.name"/>
+          </mu-card-media>
 
-        <!-- Card buttons -->
-        <mu-card-actions>
-          <mu-icon-button
-              icon="favorite"
-              @click="toggleFavorite(movie.key)"
-              :class="{favoriteColor: movie.favorite}"
-            />
-
+          <!-- Card buttons -->
+          <mu-card-actions>
             <mu-icon-button
-              :icon="getIcon(movie)"
-              @click="toggleWatchLater(movie.key)"
-              :class="{watchedColor: movie.watchLater === -1}"
-            />
+                icon="favorite"
+                @click="toggleFavorite(movie.key)"
+                :class="{favoriteColor: movie.favorite}"
+                style="transition: all .2s"
+              />
 
-            <mu-icon-button
-              icon="edit"
-              @click="openEditDialog(movie)"
-            />
+              <mu-icon-button
+                :icon="getIcon(movie)"
+                @click="toggleWatchLater(movie.key)"
+                :class="{watchedColor: movie.watchLater === -1}"
+                style="transition: all .2s"
+              />
 
-            <mu-icon-button
-              icon="delete"
-              @click="openDeleteDialog(movie.key)"
-            />
-        </mu-card-actions>
-      </mu-card>
-    </span>
+              <mu-icon-button
+                icon="edit"
+                @click="openEditDialog(movie)"
+              />
+
+              <mu-icon-button
+                icon="delete"
+                @click="openDeleteDialog(movie.key)"
+              />
+          </mu-card-actions>
+        </mu-card>
+      </span>
+    </transition-group>
 
     <!-- Dialogs -->
     <movie-tracker-edit-dialog
@@ -91,7 +95,8 @@
         return {
           width: this.settings.cardSize,
           display: 'inline-block',
-          margin: '10px'
+          margin: '10px',
+          transition: 'all .4s'
         }
       }
     },
@@ -145,5 +150,19 @@
 }
 .watchedColor {
   color: #25a80f
+}
+
+.movie-in-enter-active, .movie-in-leave-active {
+  transition: all .2s ease-out;
+}
+
+.movie-in-enter {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.movie-in-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>
